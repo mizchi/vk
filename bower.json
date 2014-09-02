@@ -1,0 +1,19 @@
+{
+  "name": "vk",
+  "main": "vk.js",
+  "version": "0.0.0",
+  "authors": [
+    "Koutarou Chikuba <miz404@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.11.1"
+  }
+}
