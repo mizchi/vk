@@ -1,4 +1,5 @@
-React = (require? 'react') ? React
+unless window?
+  React = (require 'react') ? React
 
 vk = ->
   vk.compile arguments...
@@ -75,8 +76,16 @@ vk.convert = ({tag, opts, children, text}) ->
   else
     React.DOM[tag] opts, children.map (child) -> vk.convert(child)
 
-vk.compile = (block) ->
+vk.compile = (opts, block) ->
+  if arguments.length is 1
+    block = opts
+    opts = {}
+
+  tag = opts.tag ? 'div'
+
   node = vk.render(block)
+  node.opts = opts
+  node.tag = tag
   vk.convert node
 
 if module.exports?
@@ -93,3 +102,4 @@ else
 
 # util = require 'util'
 # console.log util.inspect (vk template), true, null
+
