@@ -1,5 +1,5 @@
-unless window?
-  React = (require 'react') ? React
+# unless window?
+  # React = (require 'react') ? React
 
 vk = ->
   vk.compile arguments...
@@ -88,10 +88,11 @@ vk.compile = (opts, block) ->
   node.tag = tag
   vk.convert node
 
-if module.exports?
-  module.exports = vk
-else
-  window.vk = vk
+# if module.exports?
+  # module.exports = vk
+# else
+  # window.vk = vk
+window.vk = vk
 
 # Use
 # template = (d) ->

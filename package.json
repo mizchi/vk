@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "browserify": "^5.11.0",
+    "coffeeify": "^0.7.0",
     "react": "^0.11.1"
   }
 }
