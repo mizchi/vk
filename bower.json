@@ -1,6 +1,6 @@
 {
   "name": "vk",
-  "main": "vk.js",
+  "main": "dist/vk.js",
   "version": "0.0.0",
   "authors": [
     "Koutarou Chikuba <miz404@gmail.com>"
