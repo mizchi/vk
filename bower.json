@@ -1,6 +1,7 @@
 {
   "name": "vk",
   "main": "dist/vk.js",
+  "url": "https://github.com/mizchi/vk"
   "version": "0.0.0",
   "authors": [
     "Koutarou Chikuba <miz404@gmail.com>"
