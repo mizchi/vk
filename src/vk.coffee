@@ -1,11 +1,19 @@
 # unless window?
   # React = (require 'react') ? React
 
-vk = ->
-  vk.compile arguments...
+class VKNode
+  constructor: (@tag, @opts, @text) ->
+    @children = []
 
+  push: (item) ->
+    @children.push item
+
+vk = -> vk.compile arguments...
+vk.dom = (component, opts, text) ->
+  node = new VKNode component, opts, text
+  console.log node
+  vk.ctx.push node
 vk.ctx = null
-vk.dom = {}
 
 buildTags = ->
   tags = Object.keys(React.DOM)
@@ -34,14 +42,13 @@ buildTags = ->
           block = a2
         else
           text = a2
-
     {text, block, opts}
 
   createTagFunc = (name) -> ->
     {text, block, opts} = parseOption arguments...
 
     orig = vk.ctx
-    n = new Node name, opts, text
+    n = new VKNode name, opts, text
     vk.ctx.push n
 
     vk.ctx = n
@@ -54,27 +61,22 @@ buildTags = ->
 
 buildTags()
 
-class Node
-  constructor: (@tag, @opts, @text) ->
-    @children = []
-
-  push: (item) ->
-    @children.push item
-
+# template to ast
 vk.render = (block) ->
   if block instanceof Function
-    root = vk.ctx = new Node 'div', {}
+    root = vk.ctx = new VKNode 'div', {}
     block(vk.dom)
   else if (typeof block) is 'string'
-    root = vk.ctx = new Node 'div', block
+    root = vk.ctx = new VKNode 'div', block
   root
 
-# React converter
+# ast to react shadow dom
 vk.convert = ({tag, opts, children, text}) ->
+  component = if tag instanceof Function then tag else React.DOM[tag]
   if text
-    React.DOM[tag] opts, text
+    component opts, text
   else
-    React.DOM[tag] opts, children.map (child) -> vk.convert(child)
+    component opts, children.map (child) -> vk.convert(child)
 
 vk.compile = (opts, block) ->
   if arguments.length is 1
@@ -95,12 +97,11 @@ vk.compile = (opts, block) ->
 window.vk = vk
 
 # Use
-# template = (d) ->
-  # d.h1 'hello'
-  # d.ul {className: 'foo'}, ->
-    # d.li "hoge"
-    # d.li "fuga"
+# template = ($) ->
+  # $.h1 'hello'
+  # $.ul {className: 'foo'}, ->
+    # $.li "hoge"
+    # $.li "fuga"
 
 # util = require 'util'
 # console.log util.inspect (vk template), true, null
-
