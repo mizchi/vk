@@ -8,18 +8,41 @@ Easy Virtual DOM Wrapper Inspired by [mauricemach/coffeekup](https://github.com/
 bower install mizchi/vk
 ```
 
-## Example
+## Examples
+
+### Basic usage
 
 ```coffee
 React.createClass
-  render: -> vk (d) ->
-    d.h1 'Hello'
-    d.ul className: 'foobar-container', ->
-      d.li "foo"
-      d.li "bar"
+  render: -> vk ($) ->
+    $.h1 'Hello'
+    $.ul className: 'foobar-container', ->
+      $.li "foo"
+      $.li "bar"
 ```
 
 `vk` generate Virtual DOM
+
+### Child component
+
+```coffee
+Greeting = React.createClass
+  render: -> vk ($) ->
+    	$.h1 "Hello"
+
+Item = React.createClass
+  render: ->
+    {title} = @props
+    vk {tag: 'li'}, ($) -> span title
+
+React.createClass
+  render: -> vk ($) ->
+    $(Greeting)
+    $.ul ->
+      for i in [1..4]
+        $(Item, title: "item:"+i)
+```
+
 
 ## API
 
