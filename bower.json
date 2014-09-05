@@ -2,7 +2,7 @@
   "name": "virtual-kup",
   "main": "dist/vk.js",
   "url": "https://github.com/mizchi/vk"
-  "version": "0.0.0",
+  "version": "0.1.0",
   "authors": [
     "Koutarou Chikuba <miz404@gmail.com>"
   ],

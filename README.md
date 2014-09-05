@@ -55,9 +55,9 @@ vk.render `opts` argument is for first element.
 
 ```
 React.createClass
-	render: -> vk (tag: 'ul', className: 'foo') ->
-		d.li "foo"
-		d.li "bar"
+	render: -> vk tag: 'ul', className: 'foo', ($) ->
+		$.li "foo"
+		$.li "bar"
 ```
 
 ### DOM
@@ -67,8 +67,6 @@ React.createClass
 - `d.<tagName>(block: Function)`
 - `d.<tagName>(string: String)`
 - `d.<tagName>(opts: Object)`
-
-
 
 ## TODO
 
