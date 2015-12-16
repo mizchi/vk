@@ -1,5 +1,4 @@
-# unless window?
-  # React = (require 'react') ? React
+React = (require 'react') ? React
 
 class VKNode
   constructor: (@tag, @opts, @text) ->
@@ -70,13 +69,22 @@ vk.render = (block) ->
     root = vk.ctx = new VKNode 'div', block
   root
 
+vk.vdom = [{}]
+
 # ast to react shadow dom
-vk.convert = ({tag, opts, children, text}) ->
+vk.convert = ({tag, opts, children, text}, map) ->
   component = if tag instanceof Function then tag else React.DOM[tag]
-  if text
-    component opts, text
+
+  if map
+    vk.vdom.push component opts, children.map (child) -> React.DOM[child.tag] child.opts, child.text
+  else if text
+    vk.vdom.push React.DOM[tag] opts, text
   else
-    component opts, children.map (child) -> vk.convert(child)
+    children.forEach (child) ->
+      map = child.children.length > 0
+      vk.convert(child, map)
+
+  component.apply @, vk.vdom
 
 vk.compile = (opts, block) ->
   if arguments.length is 1
@@ -90,11 +98,10 @@ vk.compile = (opts, block) ->
   node.tag = tag
   vk.convert node
 
-# if module.exports?
-  # module.exports = vk
-# else
-  # window.vk = vk
-window.vk = vk
+if module.exports?
+  module.exports = vk
+else
+  window.vk = vk
 
 # Use
 # template = ($) ->
